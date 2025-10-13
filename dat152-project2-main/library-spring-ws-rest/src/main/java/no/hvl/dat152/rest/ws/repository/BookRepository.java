@@ -23,7 +23,8 @@ import no.hvl.dat152.rest.ws.model.Book;
 public interface BookRepository extends CrudRepository<Book, Long>, PagingAndSortingRepository<Book, Long> {
 	
 	Optional<Book> findByIsbn(String isbn);
-	
+	Book findById(long id);
+
 	Page<Book> findAll(Pageable pageable);
 	
 	Iterable<Book> findAll(Sort sort);
