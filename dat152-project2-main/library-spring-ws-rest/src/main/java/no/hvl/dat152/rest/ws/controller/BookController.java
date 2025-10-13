@@ -62,9 +62,7 @@ public class BookController {
 	
 	@PostMapping("/books")
 	public ResponseEntity<Book> createBook(@RequestBody Book book){
-		
 		Book nbook = bookService.saveBook(book);
-		
 		return new ResponseEntity<>(nbook, HttpStatus.CREATED);
 	}
 	
@@ -82,16 +80,21 @@ public class BookController {
 		Book updated = bookService.updateBook(book, isbn);
 		return ResponseEntity.ok(updated);
 	}
-	
+
 	// TODO - deleteBookByISBN (@Mappings, URI, and method)
-	@DeleteMapping("/books/isbn/{ISBN}")
-	public ResponseEntity<Object> deleteBook(@PathVariable("ISBN") String isbn) throws BookNotFoundException {
-		return new ResponseEntity<>(bookService.deleteBookByISBN(isbn), HttpStatus.OK);
+	@DeleteMapping("/books/isbn/{isbn}")
+	public ResponseEntity<Void> deleteBookByISBN(@PathVariable String isbn) throws BookNotFoundException {
+		bookService.deleteBookByISBN(isbn);
+		return ResponseEntity.noContent().build(); // Returnerer 204 No Content
 	}
+
+
+
 	//DELETE BY ID:
-	@DeleteMapping("/books/id/{id}")
-	public ResponseEntity<Object> deleteBook(@PathVariable("id") long id) throws BookNotFoundException {
-		return new ResponseEntity<>(bookService.deleteBookById(id), HttpStatus.OK);
+	@DeleteMapping("/books/{id}")
+	public ResponseEntity<Void> deleteBook(@PathVariable("id") long id) {
+		bookService.deleteBookById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }

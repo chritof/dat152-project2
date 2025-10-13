@@ -79,17 +79,15 @@ public class BookService {
 	}
 	
 	// TODO public void deleteById(long id)
-	public Book deleteBookById(long id) throws BookNotFoundException {
+	public void deleteBookById(long id) {
 		Book book = bookRepository.findById(id);
 		bookRepository.delete(book);
-		return book;
 	}
 	
 	// TODO public void deleteByISBN(String isbn)
-	public Book deleteBookByISBN(String isbn) throws BookNotFoundException {
+	public void deleteBookByISBN(String isbn) throws BookNotFoundException {
 		Book book = findByISBN(isbn);
 		bookRepository.delete(book);
-		return book;
 	}
 	
 }
