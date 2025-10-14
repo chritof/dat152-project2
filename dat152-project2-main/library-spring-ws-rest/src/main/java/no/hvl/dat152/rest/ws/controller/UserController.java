@@ -92,6 +92,10 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
+	@PostMapping("/users/{userid}/orders")
+	public ResponseEntity<Object> createUserOrder(@RequestBody Order order, @PathVariable long userid) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.createOrdersForUser(userid, order), HttpStatus.CREATED);
+	}
 
 	
 }
