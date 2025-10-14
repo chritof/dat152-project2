@@ -96,6 +96,5 @@ public class UserController {
 	public ResponseEntity<Object> createUserOrder(@RequestBody Order order, @PathVariable long userid) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.createOrdersForUser(userid, order), HttpStatus.CREATED);
 	}
-
 	
 }
