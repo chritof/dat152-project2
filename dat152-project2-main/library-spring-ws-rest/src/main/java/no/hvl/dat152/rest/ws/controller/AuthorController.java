@@ -51,7 +51,7 @@ public class AuthorController {
        return new ResponseEntity<>(author1, HttpStatus.CREATED);
     }
 	// TODO - updateAuthor (@Mappings, URI, and method)
-    @PostMapping("/authors/{id}")
+    @PutMapping("/authors/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable int id, @RequestBody Author author) throws AuthorNotFoundException {
         Author author1 = authorService.findById(id);
         author1.setFirstname(author.getFirstname());

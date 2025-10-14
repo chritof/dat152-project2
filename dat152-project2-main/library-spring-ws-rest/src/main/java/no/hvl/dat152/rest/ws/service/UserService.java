@@ -43,16 +43,43 @@ public class UserService {
 	
 	
 	// TODO public User saveUser(User user)
+	public User saveUser(User user){
+		return userRepository.save(user);
+	}
 	
 	// TODO public void deleteUser(Long id) throws UserNotFoundException 
-	
+	public void deleteUser(Long userid) throws UserNotFoundException {
+		userRepository.deleteById(userid);
+	}
 	// TODO public User updateUser(User user, Long id)
-	
+	public User updateUser(Long userid, User user) throws UserNotFoundException {
+		User user1 = findUser(userid);
+		user1.setFirstname(user.getFirstname());
+		user1.setLastname(user.getLastname());
+		user1.setOrders(user.getOrders());
+		return userRepository.save(user1);
+	}
 	// TODO public Set<Order> getUserOrders(Long userid) 
-	
+	public Set<Order> getUserOrders(Long userid) throws UserNotFoundException {
+		User user = findUser(userid);
+		return user.getOrders();
+	}
 	// TODO public Order getUserOrder(Long userid, Long oid)
-	
+	public Order getUserOrder(Long userid, Long oid) throws UserNotFoundException {
+		User user = findUser(userid);
+		return user.getOrders().stream().filter(o -> o.getId().equals(oid)).findFirst().get();
+	}
 	// TODO public void deleteOrderForUser(Long userid, Long oid)
-	
+	public void deleteOrderForUser(Long userid, Long oid) throws UserNotFoundException {
+		User user = findUser(userid);
+		Order order = user.getOrders().stream().filter(o -> o.getId().equals(oid)).findFirst().get();
+		user.getOrders().remove(order);
+		userRepository.save(user);
+	}
 	// TODO public User createOrdersForUser(Long userid, Order order)
+	public User createOrdersForUser(Long userid, Order order) throws UserNotFoundException {
+		User user = findUser(userid);
+		user.addOrder(order);
+		return userRepository.save(user);
+	}
 }

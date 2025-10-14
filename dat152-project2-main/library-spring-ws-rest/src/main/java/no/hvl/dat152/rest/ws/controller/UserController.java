@@ -4,6 +4,7 @@
 package no.hvl.dat152.rest.ws.controller;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -58,17 +59,38 @@ public class UserController {
 	}
 	
 	// TODO - createUser (@Mappings, URI=/users, and method)
-
+	@PostMapping("/users")
+	public ResponseEntity<Object> createUser(@RequestBody User user){
+		return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+	}
 	// TODO - updateUser (@Mappings, URI, and method)
-	
+	@PutMapping("/users/{id}")
+	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) throws UserNotFoundException {
+		User updatedUser = userService.updateUser(id, user);
+		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+	}
 	// TODO - deleteUser (@Mappings, URI, and method)
-
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws UserNotFoundException {
+		userService.deleteUser(id);
+		return ResponseEntity.noContent().build();
+	}
 	// TODO - getUserOrders (@Mappings, URI=/users/{id}/orders, and method)
-	
+	@GetMapping("/users/{id}/orders")
+	public ResponseEntity<Object> getUserOrders(@PathVariable("id") Long userid) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getUserOrders(userid), HttpStatus.OK);
+	}
 	// TODO - getUserOrder (@Mappings, URI=/users/{uid}/orders/{oid}, and method)
-
+	@GetMapping("/users/{uid}/orders/{oid}")
+	public ResponseEntity<Order> getUserOrder(@PathVariable("uid") Long userid, @PathVariable("oid") Long oid) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getUserOrder(userid, oid), HttpStatus.OK);
+	}
 	// TODO - deleteUserOrder (@Mappings, URI, and method)
-	
+	@DeleteMapping("/users/{userid}/orders/{oid}")
+	public ResponseEntity<Void> deleteUserOrder(@PathVariable long userid, @PathVariable long oid) throws UserNotFoundException {
+		userService.deleteOrderForUser(userid, oid);
+		return ResponseEntity.noContent().build();
+	}
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
 
 	
