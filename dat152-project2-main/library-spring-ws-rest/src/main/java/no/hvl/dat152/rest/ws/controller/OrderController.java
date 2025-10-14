@@ -46,19 +46,17 @@ public class OrderController {
     // TODO - getAllBorrowOrders (@Mappings, URI=/orders, and method) + filter by expiry and paginate
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllBorrowOrders(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expiry,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expiry,
             Pageable pageable) {
 
-        List<Order> orders;
-
-        if (expiry != null) {
-            orders = orderService.findByExpiryDate(expiry, pageable);
-        } else {
-            orders = orderService.findAllOrders();
-        }
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        List<Order> orders = (expiry != null)
+                ? orderService.findByExpiryDate(expiry, pageable)
+                : orderService.findAllOrders();   // uten paginering (OK ifølge oppgaven)
+        return ResponseEntity.ok(orders);
     }
-	// TODO - getBorrowOrder (@Mappings, URI=/orders/{id}, and method)
+
+    // TODO - getBorrowOrder (@Mappings, URI=/orders/{id}, and method)
     @GetMapping("/orders/{id}")
     public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id) throws OrderNotFoundException {
         Order order = orderService.findOrder(id);
@@ -71,7 +69,7 @@ public class OrderController {
         return new ResponseEntity<>(orderService.updateOrder(order, id), HttpStatus.OK);
     }
 	// TODO - deleteBookOrder (@Mappings, URI=/orders/{id}, and method)
-	@DeleteMapping("/order/{id}")
+	@DeleteMapping("/orders/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable long id) throws OrderNotFoundException {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
