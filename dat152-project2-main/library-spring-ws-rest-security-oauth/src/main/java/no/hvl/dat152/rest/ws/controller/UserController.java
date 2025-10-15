@@ -6,7 +6,7 @@ package no.hvl.dat152.rest.ws.controller;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
-
+import java.util.Map;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -79,7 +79,7 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws UserNotFoundException {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
     // TODO - getUserOrders (@Mappings, URI=/users/{id}/orders, and method)
     @PreAuthorize("hasAuthority('ADMIN') or (authentication.details != null && authentication.details.userid == #userid)")
@@ -98,7 +98,7 @@ public class UserController {
     @DeleteMapping("/users/{userid}/orders/{oid}")
     public ResponseEntity<Void> deleteUserOrder(@PathVariable long userid, @PathVariable long oid) throws UserNotFoundException {
         userService.deleteOrderForUser(userid, oid);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
     // TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
     @PreAuthorize("hasAuthority('ADMIN') or (authentication.details != null && authentication.details.userid == #userid)")

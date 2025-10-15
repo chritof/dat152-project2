@@ -60,8 +60,15 @@ public class OrderController {
 
     // TODO - getBorrowOrder (@Mappings, URI=/orders/{id}, and method)
     @GetMapping("/orders/{id}")
-    public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id) throws OrderNotFoundException {
+    public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id)
+            throws OrderNotFoundException {
+
         Order order = orderService.findOrder(id);
+
+        order.add(linkTo(methodOn(OrderController.class).getBorrowOrder(id)).withSelfRel());
+        order.add(linkTo(methodOn(OrderController.class).deleteOrder(id)).withRel("delete"));
+        order.add(linkTo(methodOn(OrderController.class).updateOrder(order, id)).withRel("update"));
+
         return ResponseEntity.ok(order);
     }
 
@@ -74,6 +81,6 @@ public class OrderController {
 	@DeleteMapping("/orders/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable long id) throws OrderNotFoundException {
         orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

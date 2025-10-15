@@ -73,7 +73,7 @@ public class UserController {
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) throws UserNotFoundException {
 		userService.deleteUser(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 	// TODO - getUserOrders (@Mappings, URI=/users/{id}/orders, and method)
 	@GetMapping("/users/{id}/orders")
@@ -89,7 +89,7 @@ public class UserController {
 	@DeleteMapping("/users/{userid}/orders/{oid}")
 	public ResponseEntity<Void> deleteUserOrder(@PathVariable long userid, @PathVariable long oid) throws UserNotFoundException {
 		userService.deleteOrderForUser(userid, oid);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
 	@PostMapping("/users/{userid}/orders")
