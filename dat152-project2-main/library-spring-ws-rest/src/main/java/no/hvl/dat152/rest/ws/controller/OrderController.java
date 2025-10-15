@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,13 +47,14 @@ public class OrderController {
     // TODO - getAllBorrowOrders (@Mappings, URI=/orders, and method) + filter by expiry and paginate
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllBorrowOrders(
-            @RequestParam(required = false)
+            @RequestParam(value = "expiry", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expiry,
             Pageable pageable) {
 
         List<Order> orders = (expiry != null)
                 ? orderService.findByExpiryDate(expiry, pageable)
-                : orderService.findAllOrders();   // uten paginering (OK ifølge oppgaven)
+                : orderService.findAllOrders();
+
         return ResponseEntity.ok(orders);
     }
 

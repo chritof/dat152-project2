@@ -49,6 +49,8 @@ public class OrderService {
 		return orderRepository.findAll();
 	}
 	// TODO public List<Order> findByExpiryDate(LocalDate expiry, Pageable page)
+	//skal dette være findOrdersByExpiryDate slik det står i oppgaveteksten eller
+	//findByExpiryDate slik det står i TODO?
 	public List<Order> findByExpiryDate(LocalDate expiry, Pageable pageable) {
 		return orderRepository.findByExpiryBefore(expiry, pageable).getContent();
 	}

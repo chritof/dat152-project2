@@ -93,8 +93,20 @@ public class UserController {
 	}
 	// TODO - createUserOrder (@Mappings, URI, and method) + HATEOAS links
 	@PostMapping("/users/{userid}/orders")
-	public ResponseEntity<Object> createUserOrder(@RequestBody Order order, @PathVariable long userid) throws UserNotFoundException {
-		return new ResponseEntity<>(userService.createOrdersForUser(userid, order), HttpStatus.CREATED);
+	public ResponseEntity<Object> createUserOrder(
+			@RequestBody Order order,
+			@PathVariable long userid)
+			throws UserNotFoundException, OrderNotFoundException {
+
+		var user = userService.createOrdersForUser(userid, order);
+
+		for (Order o : user.getOrders()) {
+			o.add(linkTo(methodOn(OrderController.class).getBorrowOrder(o.getId())).withSelfRel());
+			o.add(linkTo(methodOn(OrderController.class).deleteOrder(o.getId())).withRel("delete"));
+			o.add(linkTo(methodOn(OrderController.class).updateOrder(o, o.getId())).withRel("update"));
+		}
+
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 	
 }
