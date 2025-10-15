@@ -84,12 +84,20 @@ public class BookController {
     }
 
     // TODO - deleteBookByISBN (@Mappings, URI, and method)
-    @DeleteMapping("/books/isbn/{isbn}")
-    public ResponseEntity<Void> deleteBookByISBN(@PathVariable String isbn) throws BookNotFoundException {
+    @DeleteMapping("/books/{isbn}")
+    public ResponseEntity<Void> deleteBookByISBN(@PathVariable String isbn)
+            throws BookNotFoundException {
         bookService.deleteBookByISBN(isbn);
-        return ResponseEntity.noContent().build(); // Returnerer 204 No Content
+        return ResponseEntity.ok().build();
     }
 
+
+    @GetMapping("/books/{isbn}/authors")
+    public ResponseEntity<Set<Author>> getAuthorsOfBookByISBN(@PathVariable String isbn)
+            throws BookNotFoundException {
+        Set<Author> authors = bookService.findAuthorsOfBookByISBN(isbn);
+        return ResponseEntity.ok(authors); // -> 200 OK + body
+    }
 
 
     //DELETE BY ID:
