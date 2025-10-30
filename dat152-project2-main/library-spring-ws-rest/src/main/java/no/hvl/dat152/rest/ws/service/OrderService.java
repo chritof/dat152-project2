@@ -40,9 +40,10 @@ public class OrderService {
 	}
 	
 	// TODO public void deleteOrder(Long id)
-	public void deleteOrder(Long id) throws OrderNotFoundException {
-		Order order = findOrder(id);
-		orderRepository.delete(order);
+	public void deleteOrder(Long id) {
+		if (orderRepository.existsById(id)) {
+			orderRepository.deleteById(id);
+		}
 	}
 	// TODO public List<Order> findAllOrders()
 	public List<Order> findAllOrders() {
@@ -61,5 +62,9 @@ public class OrderService {
 		order1.setExpiry(order.getExpiry());
 		orderRepository.save(order1);
 		return order1;
+	}
+
+	public List<Order> findAllOrders(Pageable pageable) {
+		return orderRepository.findAll(pageable).getContent();
 	}
 }

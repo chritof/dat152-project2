@@ -60,7 +60,6 @@ public class AuthorController {
         return new ResponseEntity<>(author2, HttpStatus.OK);
     }
 
-    //delete Author
     @DeleteMapping("/authors/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable int id) throws AuthorNotFoundException {
         authorService.deleteById(id);

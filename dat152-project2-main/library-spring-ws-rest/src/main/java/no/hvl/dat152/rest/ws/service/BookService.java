@@ -53,15 +53,11 @@ public class BookService {
 	
 	// TODO public Book updateBook(Book book, String isbn)
 	public Book updateBook(Book book, String isbn) throws BookNotFoundException {
-		// Finn eksisterende bok eller kast BookNotFoundException
 		Book existing = findByISBN(isbn);
 
-		// Oppdater felter som kan endres
 		existing.setTitle(book.getTitle());
 		existing.setAuthors(book.getAuthors());
-		// existing.setIsbn(...) røres normalt ikke – styres av path-param
 
-		// Lagre og returner
 		return bookRepository.save(existing);
 	}
 	
@@ -73,7 +69,6 @@ public class BookService {
 	
 	// TODO public Set<Author> findAuthorsOfBookByISBN(String isbn)
 	public Set<Author> findAuthorsOfBookByISBN(String isbn) throws BookNotFoundException {
-		//husk at denne metoden heter hashmappet fra Bok model klassen!
 		Book book = findByISBN(isbn);
 		return book.getAuthors();
 	}

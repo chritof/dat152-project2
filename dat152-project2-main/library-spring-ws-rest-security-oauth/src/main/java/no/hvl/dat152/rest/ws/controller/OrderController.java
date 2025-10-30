@@ -55,7 +55,7 @@ public class OrderController {
 
         List<Order> orders = (expiry != null)
                 ? orderService.findByExpiryDate(expiry, pageable)
-                : orderService.findAllOrders();
+                : orderService.findAllOrders(pageable);   // <-- bruk pageable her
 
         return ResponseEntity.ok(orders);
     }

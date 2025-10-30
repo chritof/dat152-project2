@@ -106,7 +106,8 @@ public class UserController {
 			o.add(linkTo(methodOn(OrderController.class).updateOrder(o, o.getId())).withRel("update"));
 		}
 
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		return new ResponseEntity<>(user.getOrders(), HttpStatus.CREATED);
+// evt. returnere selve 'order'
 	}
 	
 }
